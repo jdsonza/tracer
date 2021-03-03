@@ -1,6 +1,7 @@
 from pathlib import Path
 import tkinter as tk
 import tkinter.filedialog
+from tkcalendar import DateEntry
 
 import pandas as pd 
 from pandastable import Table, TableModel
@@ -25,9 +26,12 @@ class Window:
             master=root
         )
         self.positiveAttendeeIdEntry.insert(0, 'INFECT001')
+        self.positiveConfirmedDate = DateEntry(master=root)
+
 
         self.browseButton.pack()
         self.positiveAttendeeIdEntry.pack()
+        self.positiveConfirmedDate.pack()
         self.executeButton.pack()
     
     def browseFiles(self):
@@ -44,12 +48,22 @@ class Window:
         self.df = readExcel(self.filenames)
         self.df = dataPreprocessing(self.df)
         positiveAttendeeID = self.positiveAttendeeIdEntry.get() 
-        print(self.df.query("Attendees_User_ID == @positiveAttendeeID").filter(items=[
-            'Event_Name',"Attendees_User_ID",'Appointment_Time', 'Location']))
+        positiveAttendeeAppointments = self.df.query(
+            "Attendees_User_ID == @positiveAttendeeID"
+        )
+        contactConditions = positiveAttendeeAppointments.filter(
+            items=['Appointment_Time', 'Location']
+        )
+        
+        self.displayTable(positiveAttendeeAppointments)
+    
+
+    def displayTable(self, df):
         f = tk.Frame(self.root)
         f.pack()
-        self.table = pt = Table(f, dataframe=self.df,
-                                showtoolbar=True, showstatusbar=True)
+        self.table = pt = Table(f, dataframe=df,
+            showtoolbar=True, showstatusbar=True
+        )
         pt.show()
             
 
