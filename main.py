@@ -12,29 +12,29 @@ class Window:
         self.root = root
         root.title("Contact Tracing")
         root.geometry()
-        self.browseButton = tk.Button(
+        self.browse_button = tk.Button(
             master=root, 
             text="Browse files", 
-            command=self.browseFiles
+            command=self.browse_files
         )
-        self.executeButton = tk.Button(
+        self.execute_button = tk.Button(
             master=root,
             text="Begin Contact Tracing",
-            command=self.contactTracing
+            command=self.contact_tracing
         )
-        self.positiveAttendeeIdEntry = tk.Entry(
+        self.positive_attendee_id_entry = tk.Entry(
             master=root
         )
-        self.positiveAttendeeIdEntry.insert(0, 'INFECT001')
-        self.positiveConfirmedDate = DateEntry(master=root)
+        self.positive_attendee_id_entry.insert(0, 'INFECT001')
+        self.positive_confirmed_date = DateEntry(master=root)
 
 
-        self.browseButton.pack()
-        self.positiveAttendeeIdEntry.pack()
-        self.positiveConfirmedDate.pack()
-        self.executeButton.pack()
+        self.browse_button.pack()
+        self.positive_attendee_id_entry.pack()
+        self.positive_confirmed_date.pack()
+        self.execute_button.pack()
     
-    def browseFiles(self):
+    def browse_files(self):
         self.filenames = tk.filedialog.askopenfilenames(
             initialdir = str(Path.cwd()),
             title = "Select a File",
@@ -44,21 +44,21 @@ class Window:
             "*.*"))
         )
     
-    def contactTracing(self):
-        self.df = readExcel(self.filenames)
-        self.df = dataPreprocessing(self.df)
-        positiveAttendeeID = self.positiveAttendeeIdEntry.get() 
-        positiveAttendeeAppointments = self.df.query(
+    def contact_tracing(self):
+        self.df = read_excel(self.filenames)
+        self.df = data_preprocessing(self.df)
+        positive_attendee_id = self.positive_attendee_id_entry.get() 
+        positive_attendee_appointments = self.df.query(
             "Attendees_User_ID == @positiveAttendeeID"
         )
-        contactConditions = positiveAttendeeAppointments.filter(
+        contact_conditions = positive_attendee_appointments.filter(
             items=['Appointment_Time', 'Location']
         )
-        
-        self.displayTable(positiveAttendeeAppointments)
-    
 
-    def displayTable(self, df):
+        self.display_table(positive_attendee_appointments)
+    
+    
+    def display_table(self, df):
         f = tk.Frame(self.root)
         f.pack()
         self.table = pt = Table(f, dataframe=df,
@@ -67,7 +67,7 @@ class Window:
         pt.show()
             
 
-def readExcel(filenames):
+def read_excel(filenames):
     df = pd.DataFrame()
     for file in filenames:
         data = pd.read_excel(file)
@@ -75,7 +75,7 @@ def readExcel(filenames):
     
     return df
 
-def dataPreprocessing(df):
+def data_preprocessing(df):
     df.columns = df.columns.str.replace(" ","_")
     df.columns = df.columns.str.replace("'","")
     df.Appointment_Time = pd.to_datetime(df["Appointment_Time"])
