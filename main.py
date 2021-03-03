@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.filedialog
 
 import pandas as pd 
+from pandastable import Table, TableModel
 
 
 class Window:
@@ -23,6 +24,7 @@ class Window:
         self.positiveAttendeeIdEntry = tk.Entry(
             master=root
         )
+        self.positiveAttendeeIdEntry.insert(0, 'INFECT001')
 
         self.browseButton.pack()
         self.positiveAttendeeIdEntry.pack()
@@ -42,10 +44,14 @@ class Window:
         self.df = readExcel(self.filenames)
         self.df = dataPreprocessing(self.df)
         positiveAttendeeID = self.positiveAttendeeIdEntry.get() 
-        print(self.df.query("Attendees_User_ID == @positiveAttendeeID").filter(items=['Event_Name',"Attendees_User_ID",'Appointment_Time', 'Location']))
-        
-
-    
+        print(self.df.query("Attendees_User_ID == @positiveAttendeeID").filter(items=[
+            'Event_Name',"Attendees_User_ID",'Appointment_Time', 'Location']))
+        f = tk.Frame(self.root)
+        f.pack()
+        self.table = pt = Table(f, dataframe=self.df,
+                                showtoolbar=True, showstatusbar=True)
+        pt.show()
+            
 
 def readExcel(filenames):
     df = pd.DataFrame()
