@@ -1,0 +1,6 @@
+Event_Name,Attendee_Name,Attendees_User_ID,Email,Site_Title,Appointment_Time,Duration_(min),#Num_Attendees_in_Slot,Attendees_Comment,Organizer,Location,Category,Event_Start_Time,Event_Duration_(min),Check
+EEE2045F Tutorial Group 1,"Son, Jarryd",01445766,jarryd.son@uct.ac.za,Register Testing,2021-03-22 09:00:00,225,4,,Jarryd Son,Menzies 10,Tutorial,22-Mar-2021 09:00,225,
+EEE2045F Tutorial Group 1,Infected,INFECT001,INFECT001@myuct.ac.za,Register Testing,2021-03-22 09:00:00,225,4,,Jarryd Son,Menzies 10,Tutorial,22-Mar-2021 09:00,225,
+EEE2045F Tutorial Group 1,contact1,CONTAC001,CONTAC001@myuct.ac.za,Register Testing,2021-03-22 09:00:00,225,4,,Jarryd Son,Menzies 10,Tutorial,22-Mar-2021 09:00,225,
+EEE2045F Tutorial Group 1,contact2,CONTAC002,CONTAC002@myuct.ac.za,Register Testing,2021-03-22 09:00:00,225,4,,Jarryd Son,Menzies 10,Tutorial,22-Mar-2021 09:00,225,
+EEE2045F Prac 1,contact3,CONTAC003,CONTAC003@myuct.ac.za,Register Testing,2021-03-23 11:00:00,105,4,,Jarryd Son,White Lab,Practical,23-Mar-2021 08:01,466,
