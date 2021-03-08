@@ -9,37 +9,49 @@ from pandastable import Table, TableModel
 
 class Window:
     def __init__(self, root, n_prior_days):
+        self.n_prior_days = n_prior_days
         self.root = root
         root.title("Contact Tracing")
         root.geometry()
+
         self.selected_files_label = tk.Label(
             root,
             text="Select course register sheets"
         )
+
         browse_button = tk.Button(
             root, 
             text="Browse files", 
             command=self.browse_files
         )
+
         execute_button = tk.Button(
             root,
             text="Begin Contact Tracing",
             command=self.contact_tracing
         )
-        self.positive_attendee_id_entry = tk.Entry(root)
-        self.positive_attendee_id_entry.insert(0, 'INFECT001')
+        
         positive_attendee_label = tk.Label(
             root, 
-            text='Student ID/Staff number of positive member:'
+            text='Campus ID of positive member:'
         )
+        self.positive_attendee_id_entry = tk.Entry(root)
+        self.positive_attendee_id_entry.insert(0, 'INFECT001')
+
         positive_confirmed_date_label = tk.Label(
             root, 
             text='Date of confirmed infection:'
         )
         self.positive_confirmed_date = DateEntry(master=root)
+        
         self.filter_unique_var = tk.IntVar(value=1)
-        filter_unique_button = tk.Checkbutton(root,
-            text='Show unique contacts', variable=self.filter_unique_var)
+        filter_unique_button = tk.Checkbutton(
+            root,
+            text='Show unique contacts',
+            variable=self.filter_unique_var
+        )
+
+        #Widget layout
         
         self.selected_files_label.grid(row=0, column=0, sticky='W', 
             padx=(5,5), pady=(5,5))
@@ -58,17 +70,12 @@ class Window:
         execute_button.grid(row=4, column=0, sticky='W,S', 
             padx=(5,5), pady=(5,5))
 
-        self.n_prior_days = n_prior_days
-
-
+        
     def browse_files(self):
         self.filenames = tk.filedialog.askopenfilenames(
             initialdir = str(Path.cwd()),
             title = "Select Files",
-            filetypes = (("Excel Files",
-            ".xlsx .xls"),
-            ("all files",
-            "*.*"))
+            filetypes = (("Excel Files", ".xlsx .xls"), ("all files","*.*"))
         )
 
         short_names = []
@@ -80,16 +87,17 @@ class Window:
 
     def contact_tracing(self):
         self.df = read_excel(self.filenames)
-        self.df = data_preprocessing(self.df)
+        self.df = data_cleaning(self.df)
 
         positive_attendee_id = self.positive_attendee_id_entry.get() 
         positive_attendee_appointments = self.df.query(
             "Attendees_User_ID == @positive_attendee_id"
         )
 
-        contact_conditions = positive_attendee_appointments.filter(
-            items=['Appointment_Time', 'Location']
-        )
+        contact_conditions = positive_attendee_appointments[
+            ['Appointment_Time', 'Location']
+        ]
+        
         all_contact_events = self.df[
                         self.df['Appointment_Time'].isin(
                             contact_conditions.values[:, 0]
@@ -101,8 +109,8 @@ class Window:
 
         contact_trace_start_date = pd.Timestamp(
             self.positive_confirmed_date.get_date()) \
-            - pd.Timedelta(self.n_prior_days
-        )
+            - pd.Timedelta(self.n_prior_days)
+
         recent_contact_events = all_contact_events[
             all_contact_events.Appointment_Time 
             > contact_trace_start_date
@@ -118,7 +126,7 @@ class Window:
     
     def display_table(self, df):
         f = tk.Frame(self.root)
-        f.grid(row=5, column=0, rowspan=3)
+        f.grid(row=5, column=1, rowspan=3, sticky='s')
         self.table = pt = Table(f, dataframe=df,
             showtoolbar=True, showstatusbar=True
         )
@@ -134,7 +142,7 @@ def read_excel(filenames):
     return df
 
 
-def data_preprocessing(df):
+def data_cleaning(df):
     df.columns = df.columns.str.replace(" ","_")
     df.columns = df.columns.str.replace("'","")
     df.Appointment_Time = pd.to_datetime(df["Appointment_Time"])
