@@ -14,60 +14,76 @@ class Window:
         root.title("Contact Tracing")
         root.geometry()
 
-        self.selected_files_label = tk.Label(
-            root,
-            text="Select course register sheets"
+        self.top_frame = tk.Frame(root)
+        self.bottom_frame = tk.Frame(root)
+
+        self.top_frame.grid(row=0, sticky='nw')
+        self.bottom_frame.grid(row=1)
+
+        self.selected_files_label = tk.Message(
+            self.top_frame,
+            text="Select course register sheets:",
+            width=180
         )
 
         browse_button = tk.Button(
-            root, 
+            self.top_frame, 
             text="Browse files", 
             command=self.browse_files
         )
 
         execute_button = tk.Button(
-            root,
+            self.top_frame,
             text="Begin Contact Tracing",
             command=self.contact_tracing
         )
         
         positive_attendee_label = tk.Label(
-            root, 
+            self.top_frame, 
             text='Campus ID of positive member:'
         )
-        self.positive_attendee_id_entry = tk.Entry(root)
+        self.positive_attendee_id_entry = tk.Entry(self.top_frame)
         self.positive_attendee_id_entry.insert(0, 'INFECT001')
 
         positive_confirmed_date_label = tk.Label(
-            root, 
+            self.top_frame, 
             text='Date of confirmed infection:'
         )
-        self.positive_confirmed_date = DateEntry(master=root)
+        self.positive_confirmed_date = DateEntry(self.top_frame)
         
         self.filter_unique_var = tk.IntVar(value=1)
         filter_unique_button = tk.Checkbutton(
-            root,
+            self.top_frame,
             text='Show unique contacts',
             variable=self.filter_unique_var
         )
 
+        self.export_button = tk.Button(
+            self.top_frame,
+            text='Export',
+            command=self.export_df,
+            state='disabled'
+        )
+
         #Widget layout
         
-        self.selected_files_label.grid(row=0, column=0, sticky='W', 
+        self.selected_files_label.grid(row=0, column=0, sticky='w', 
             padx=(5,5), pady=(5,5))
-        browse_button.grid(row=0, column=1, sticky='W', 
+        browse_button.grid(row=0, column=1, sticky='w', 
             padx=(5,5), pady=(5,5))
-        positive_attendee_label.grid(row=1, column=0, sticky='W', 
+        positive_attendee_label.grid(row=1, column=0, sticky='w', 
             padx=(5,5), pady=(5,5))
-        self.positive_attendee_id_entry.grid(row=1, column=1, sticky='W', 
+        self.positive_attendee_id_entry.grid(row=1, column=1, sticky='w', 
             padx=(5,5), pady=(5,5))
-        positive_confirmed_date_label.grid(row=2, column=0, sticky='W',     
+        positive_confirmed_date_label.grid(row=2, column=0, sticky='w', 
             padx=(5,5), pady=(5,5))
-        self.positive_confirmed_date.grid(row=2, column=1, sticky='W', 
+        self.positive_confirmed_date.grid(row=2, column=1, sticky='w', 
             padx=(5,5), pady=(5,5))
-        filter_unique_button.grid(row=3, column=0, sticky='W', 
+        filter_unique_button.grid(row=3, column=0, sticky='w', 
             padx=(5,5), pady=(5,5))
-        execute_button.grid(row=4, column=0, sticky='W,S', 
+        execute_button.grid(row=4, column=0, sticky='w', 
+            padx=(5,5), pady=(5,5))
+        self.export_button.grid(row=4, column=1, sticky='w', 
             padx=(5,5), pady=(5,5))
 
         
@@ -80,7 +96,7 @@ class Window:
 
         short_names = []
         for filename in self.filenames:
-            short_names.append(str(Path(filename).name))
+            short_names.append(str(Path(filename).name + ','))
 
         self.selected_files_label.config(text=short_names)
     
@@ -111,27 +127,38 @@ class Window:
             self.positive_confirmed_date.get_date()) \
             - pd.Timedelta(self.n_prior_days)
 
-        recent_contact_events = all_contact_events[
+        self.recent_contact_events = all_contact_events[
             all_contact_events.Appointment_Time 
             > contact_trace_start_date
         ]
         
         if self.filter_unique_var.get():
-            recent_contact_events = recent_contact_events.drop_duplicates(
+            self.recent_contact_events = self.recent_contact_events.drop_duplicates(
                 subset=["Attendees_User_ID"]
             )
 
-        self.display_table(recent_contact_events)
+        self.display_table(self.recent_contact_events)
+        self.export_button.config(state='normal')
     
     
     def display_table(self, df):
-        f = tk.Frame(self.root)
-        f.grid(row=5, column=1, rowspan=3, sticky='s')
-        self.table = pt = Table(f, dataframe=df,
-            showtoolbar=True, showstatusbar=True
+        self.table = pt = Table(
+            self.bottom_frame, 
+            dataframe=df,
+            width=500, 
+            height=200,
+            showtoolbar=True, 
+            showstatusbar=True
         )
         pt.show()
-            
+
+
+    def export_df(self):
+        #export dataframe
+        save_filename = tk.filedialog.asksaveasfilename()
+        
+        if Path(save_filename).suffix == '.csv':
+            self.recent_contact_events.to_csv(save_filename, index=False)
 
 def read_excel(filenames):
     df = pd.DataFrame()
