@@ -1,6 +1,7 @@
 from pathlib import Path
 import tkinter as tk
 import tkinter.filedialog
+import tkinter.messagebox
 from tkcalendar import DateEntry
 
 import pandas as pd 
@@ -155,10 +156,23 @@ class Window:
 
     def export_df(self):
         #export dataframe
-        save_filename = tk.filedialog.asksaveasfilename()
+        save_filename = tk.filedialog.asksaveasfilename(
+            defaultextension='*.', 
+            filetypes=(
+                ('Excel files', '*.xlsx'), 
+                ('CSV files', '*.csv'), 
+                ('Pickle files', '*.pkl')
+            )
+        )
         
-        if Path(save_filename).suffix == '.csv':
+        if (Path(save_filename).suffix=='.xlsx'):
+            self.recent_contact_events.to_excel(save_filename, index=False)
+            tk.messagebox.showinfo(title='File Saved', message='File exported')
+        elif (Path(save_filename).suffix=='.csv'):
             self.recent_contact_events.to_csv(save_filename, index=False)
+        elif (Path(save_filename).suffix=='.pkl'):
+            self.recent_contact_events.to_pickle(save_filename, index=False)
+
 
 def read_excel(filenames):
     df = pd.DataFrame()
