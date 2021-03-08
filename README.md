@@ -1,2 +1,2 @@
-# tracer
-A repository for a contact tracing application
+# Tracer
+A contact tracing application 
