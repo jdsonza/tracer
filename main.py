@@ -165,13 +165,18 @@ class Window:
             )
         )
         
-        if (Path(save_filename).suffix=='.xlsx'):
-            self.recent_contact_events.to_excel(save_filename, index=False)
-            tk.messagebox.showinfo(title='File Saved', message='File exported')
-        elif (Path(save_filename).suffix=='.csv'):
-            self.recent_contact_events.to_csv(save_filename, index=False)
-        elif (Path(save_filename).suffix=='.pkl'):
-            self.recent_contact_events.to_pickle(save_filename, index=False)
+        if save_filename != '':
+            try:
+                if (Path(save_filename).suffix == '.xlsx'):
+                    self.recent_contact_events.to_excel(save_filename, index=False)      
+                elif (Path(save_filename).suffix == '.csv'):
+                    self.recent_contact_events.to_csv(save_filename, index=False)
+                elif (Path(save_filename).suffix == '.pkl'):
+                    self.recent_contact_events.to_pickle(save_filename)
+            except Exception as err:
+                tk.messagebox.showerror(title='Error', message='Unexpected error: ' + str(err))
+            else:     
+                tk.messagebox.showinfo(title='File Saved', message='File exported') 
 
 
 def read_excel(filenames):
