@@ -128,7 +128,3 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-class-registers/
-images/
-results/
-data_exploration.ipynb
