@@ -175,7 +175,7 @@ class Window:
 def read_excel(filenames):
     df = pd.DataFrame()
     for file in filenames:
-        data = pd.read_excel(file)
+        data = pd.read_excel(file, engine='openpyxl')
         df = df.append(data)
     
     return df
