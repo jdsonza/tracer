@@ -126,12 +126,16 @@ class Window:
 
         contact_trace_start_date = pd.Timestamp(
             self.positive_confirmed_date.get_date()) \
-            - pd.Timedelta(self.n_prior_days)
+            - pd.Timedelta(self.n_prior_days, unit='d')
+        
+        date_mask = ((
+            all_contact_events['Appointment_Time'] 
+            > contact_trace_start_date)
+            & (all_contact_events['Appointment_Time'] 
+            < pd.to_datetime(self.positive_confirmed_date.get_date()))
+        )
 
-        self.recent_contact_events = all_contact_events[
-            all_contact_events.Appointment_Time 
-            > contact_trace_start_date
-        ]
+        self.recent_contact_events = all_contact_events[date_mask]
         
         if self.filter_unique_var.get():
             self.recent_contact_events = self.recent_contact_events.drop_duplicates(
@@ -143,15 +147,16 @@ class Window:
     
     
     def display_table(self, df):
-        self.table = pt = Table(
-            self.bottom_frame, 
-            dataframe=df,
-            width=500, 
-            height=200,
-            showtoolbar=True, 
-            showstatusbar=True
-        )
-        pt.show()
+        try:
+            self.table = pt = Table(
+                self.bottom_frame, 
+                dataframe=df,
+                showtoolbar=True, 
+                showstatusbar=True
+            )
+            pt.show()
+        except Exception as err:
+            tk.messagebox.showerror(title='Error', message='Unexpected error: ' + str(err))
 
 
     def export_df(self):
