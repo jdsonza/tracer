@@ -194,5 +194,3 @@ if __name__ == "__main__":
     root.eval('tk::PlaceWindow . center')
     Window(root, n_prior_days=14)
     root.mainloop()                                                                                              
-
-
