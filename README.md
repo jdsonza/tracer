@@ -1,7 +1,7 @@
 # Tracer
 The Tracer application allows for automated contact tracing from spreadsheet attendance registers. The current implementation assumes a standard format that is exported by the Vula sign-up tool. 
 
-The standard format appears as follows  (highlights have been manually added):
+The standard format appears as follows  (highlights have been manually added and some unimportant columnds hidden):
 ![](https://github.com/jdsonza/tracer/blob/main/docs/images/test_sheet_screenshot.png)
   
 You should note the infected person highlighted red, person's in contact with a probable or confirmed case highlighted orange, and person's with no recorded contact highlighted in green.
