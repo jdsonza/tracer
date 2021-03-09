@@ -1,7 +1,7 @@
 # Tracer
 The Tracer application allows for automated contact tracing from spreadsheet attendance registers. The current implementation assumes a standard format that is exported by the Vula sign-up tool. 
 
-The standard format appears as follows  (highlights have been manually added and some unimportant columnds hidden):
+The standard format appears as follows  (highlights have been manually added and some unimportant columns hidden):
 ![](https://github.com/jdsonza/tracer/blob/main/docs/images/test_sheet_screenshot.png)
   
 You should note the infected person highlighted red, person's in contact with a probable or confirmed case highlighted orange, and person's with no recorded contact highlighted in green.
@@ -17,7 +17,7 @@ The Tracer tool will collected the details for individuals that have been in con
 
 # Requirements
 * This release requires the Windows operating system.
-* At the moment you will also need attendance schedules in the same format as the Vula Sign-up tool. Documentation for how to set that up is [here](https://github.com/jdsonza/tracer/blob/main/docs/Setting%20up%20the%20Vula%20Sign-up.docx).
+* At the moment you will also need attendance schedules in the same format as the Vula Sign-up tool. Documentation for how to set that up is [here](https://github.com/jdsonza/tracer/blob/main/docs/Setting%20up%20the%20Vula%20Sign-up%20Tool.pdf). Updates will be made to allow for other spreadsheet formatting.
 
 # Setup
 1. Download the `tracer.exe` file ![here](https://github.com/jdsonza/tracer/releases). See the screenshot below for an example.
