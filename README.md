@@ -25,7 +25,7 @@ The Tracer tool will collected the details for individuals that have been in con
 2. Double-click the downloaded file to launch it. *It takes a while to load as you can see in the GIF further down. 
 
 # Usage
-1. Click the "Browse Files" button and select all of the attendance schedule spreadsheets you wish to perform the contact tracing on. 
+1. Click the "Browse Files" button and select all of the attendance schedule spreadsheets you wish to perform the contact tracing on. e.g. You should know which courses a particular student takes and would only need to use the attendance schedules from those select courses. 
 2. Enter the Campus ID of the infected person (probable or confirmed)
 3. Enter the date on which the infected person first started showing symptoms (or from the date of diagnosis for asymptomatic cases)
 4. You may uncheck the "Show unique contacts" checkbox if you wish export all contact events.
