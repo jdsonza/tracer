@@ -20,7 +20,7 @@ This release requires the Windows operating system.
 
 # Setup
 1. Download the `tracer.exe` file here <insert link>. 
-2. Double-click the downloaded file to launch it.
+2. Double-click the downloaded file to launch it. *It takes a while to load as you can see in the GIF further down. 
 
 # Usage
 1. Click the "Browse Files" button and select all of the attendance schedule spreadsheets you wish to perform the contact tracing on. 
@@ -31,3 +31,11 @@ This release requires the Windows operating system.
 6. Once the contact tracing process is complete you will be allowed to export the data. You may choose .xlsx, .csv or .pickle filetypes. 
 7. You can analyse the data further in spreadsheet tools such as Excel.
 
+# Demonstration
+Here's a GIF of performing contact tracing:
+
+![](https://github.com/jdsonza/tracer/blob/main/docs/images/tracer_use_gif.gif)
+
+Viewing the exported data:
+
+![](https://github.com/jdsonza/tracer/blob/main/docs/images/results_open_gif.gif)
