@@ -16,7 +16,8 @@ A contact is a person who has had any one of the following exposures to a probab
 The Tracer tool will collected the details for individuals that have been in contact with an infected person 14 days before the start of symptoms. You can then export the data to .csv, .xlsx or .pickle files for further analysis.
 
 # Requirements
-This release requires the Windows operating system.
+* This release requires the Windows operating system.
+* At the moment you will also need attendance schedules in the same format as the Vula Sign-up tool. Documentation for how to set that up is [here](https://github.com/jdsonza/tracer/blob/main/docs/Setting%20up%20the%20Vula%20Sign-up.docx).
 
 # Setup
 1. Download the `tracer.exe` file ![here](https://github.com/jdsonza/tracer/releases). See the screenshot below for an example.
