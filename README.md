@@ -13,7 +13,7 @@ A contact is a person who has had any one of the following exposures to a probab
 3. direct care for a patient with probable or confirmed COVID-19 disease without the use of recommended PPE; or
 4. other situations as indicated by local risk assessments
 
-The Tracer tool will collected the details for individuals that have been in contact with an infected person 14 days before the start of symptoms. You can then export the data to .csv, .xlsx or .pickle files for further analysis.
+The Tracer tool will collected the details for individuals that have been in contact with an infected person 14 days before the start of symptoms (or date of diagnosis for asymptomatic cases). You can then export the data to .csv, .xlsx or .pickle files for further analysis.
 
 # Requirements
 * This release requires the Windows operating system.
