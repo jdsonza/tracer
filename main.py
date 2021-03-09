@@ -5,9 +5,6 @@ import tkinter.messagebox
 from tkcalendar import DateEntry
 
 import pandas as pd 
-from pandastable import Table, TableModel
-
-
 class Window:
     def __init__(self, root, n_prior_days):
         self.n_prior_days = n_prior_days
@@ -103,60 +100,51 @@ class Window:
     
 
     def contact_tracing(self):
-        self.df = read_excel(self.filenames)
-        self.df = data_cleaning(self.df)
-
-        positive_attendee_id = self.positive_attendee_id_entry.get() 
-        positive_attendee_appointments = self.df.query(
-            "Attendees_User_ID == @positive_attendee_id"
-        )
-
-        contact_conditions = positive_attendee_appointments[
-            ['Appointment_Time', 'Location']
-        ]
-        
-        all_contact_events = self.df[
-                        self.df['Appointment_Time'].isin(
-                            contact_conditions.values[:, 0]
-                        ) 
-                        & self.df['Location'].isin(
-                            contact_conditions.values[:, 1]
-                        )
-        ]
-
-        contact_trace_start_date = pd.Timestamp(
-            self.positive_confirmed_date.get_date()) \
-            - pd.Timedelta(self.n_prior_days, unit='d')
-        
-        date_mask = ((
-            all_contact_events['Appointment_Time'] 
-            > contact_trace_start_date)
-            & (all_contact_events['Appointment_Time'] 
-            < pd.to_datetime(self.positive_confirmed_date.get_date()))
-        )
-
-        self.recent_contact_events = all_contact_events[date_mask]
-        
-        if self.filter_unique_var.get():
-            self.recent_contact_events = self.recent_contact_events.drop_duplicates(
-                subset=["Attendees_User_ID"]
-            )
-
-        self.display_table(self.recent_contact_events)
-        self.export_button.config(state='normal')
-    
-    
-    def display_table(self, df):
         try:
-            self.table = pt = Table(
-                self.bottom_frame, 
-                dataframe=df,
-                showtoolbar=True, 
-                showstatusbar=True
+            self.df = read_excel(self.filenames)
+            self.df = data_cleaning(self.df)
+
+            positive_attendee_id = self.positive_attendee_id_entry.get() 
+            positive_attendee_appointments = self.df.query(
+                "Attendees_User_ID == @positive_attendee_id"
             )
-            pt.show()
+
+            contact_conditions = positive_attendee_appointments[
+                ['Appointment_Time', 'Location']
+            ]
+            
+            all_contact_events = self.df[
+                            self.df['Appointment_Time'].isin(
+                                contact_conditions.values[:, 0]
+                            ) 
+                            & self.df['Location'].isin(
+                                contact_conditions.values[:, 1]
+                            )
+            ]
+
+            contact_trace_start_date = pd.Timestamp(
+                self.positive_confirmed_date.get_date()) \
+                - pd.Timedelta(self.n_prior_days, unit='d')
+            
+            date_mask = ((
+                all_contact_events['Appointment_Time'] 
+                > contact_trace_start_date)
+                & (all_contact_events['Appointment_Time'] 
+                < pd.to_datetime(self.positive_confirmed_date.get_date()))
+            )
+
+            self.recent_contact_events = all_contact_events[date_mask]
+            
+            if self.filter_unique_var.get():
+                self.recent_contact_events = self.recent_contact_events.drop_duplicates(
+                    subset=["Attendees_User_ID"]
+                )
+
         except Exception as err:
             tk.messagebox.showerror(title='Error', message='Unexpected error: ' + str(err))
+        else:
+            tk.messagebox.showinfo(title='Complete', message='Contact tracing completed. You may now export the data') 
+            self.export_button.config(state='normal')
 
 
     def export_df(self):
