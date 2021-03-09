@@ -19,7 +19,8 @@ The Tracer tool will collected the details for individuals that have been in con
 This release requires the Windows operating system.
 
 # Setup
-1. Download the `tracer.exe` file here <insert link>. 
+1. Download the `tracer.exe` file ![here](https://github.com/jdsonza/tracer/releases). See the screenshot below for an example.
+   ![](https://github.com/jdsonza/tracer/blob/main/docs/images/exe_location.png)
 2. Double-click the downloaded file to launch it. *It takes a while to load as you can see in the GIF further down. 
 
 # Usage
