@@ -17,7 +17,7 @@ The Tracer tool will collected the details for individuals that have been in con
 
 # Requirements
 * This release requires the Windows operating system.
-* At the moment you will also need attendance schedules in the same format as the Vula Sign-up tool. Documentation for how to set that up is [here](https://github.com/jdsonza/tracer/blob/main/docs/Setting%20up%20the%20Vula%20Sign-up.docx).
+* At the moment you will also need attendance schedules in the same format as the Vula Sign-up tool. Documentation for how to set that up is [here](https://github.com/jdsonza/tracer/blob/main/docs/Setting%20up%20the%20Vula%20Sign-up%20Tool.pdf).
 
 # Setup
 1. Download the `tracer.exe` file ![here](https://github.com/jdsonza/tracer/releases). See the screenshot below for an example.
